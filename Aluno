@@ -1,0 +1,93 @@
+package com.company;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+public class Aluno {
+    private int verificador;
+    private int idAluno;
+    private static int i=1;
+    private String nome;
+    private String sobrenome;
+    private char sexo;
+    private Date nascimento;
+    private int idade;
+    public int getIdAluno(){
+        if (idAluno!=verificador)
+        {idAluno = i;
+            i++;}
+        verificador = idAluno;
+        return this.idAluno;
+    }
+    public String getNome() {
+        return this.nome;
+    }
+    public void setNome(String value) {
+        this.nome = value;
+    }
+    public String getSobrenome() {
+        return this.sobrenome;
+    }
+    public void setSobrenome(String value) {
+        this.sobrenome = value;
+    }
+    public char getSexo() {
+        return this.sexo;
+    }
+    public void setSexo(char value) {
+        this.sexo = value;
+    }
+    public Date getNascimento() {
+        return this.nascimento;
+    }
+    public void setNascimento(String value) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = null;
+        try {
+            //Convertando string para Date
+            data = dateFormat.parse(value);
+        } catch (ParseException e) {
+            // ExcessÃ£o
+            e.printStackTrace();
+        }
+        this.nascimento = data;
+    }
+    public int calculaIdade() {
+
+        Calendar dataAtual = Calendar.getInstance();
+
+
+        int idade = dataAtual.get(Calendar.YEAR) - this.nascimento.getYear();
+        idade -= 1901;
+        if(dataAtual.get(Calendar.YEAR)>idade) {
+            if(dataAtual.get(Calendar.MONTH)>this.nascimento.getMonth()){
+                if(dataAtual.get(Calendar.DAY_OF_MONTH)>this.nascimento.getDay())
+                {
+            idade+=1;}}}
+        return idade;
+    }
+    public Aluno() {
+        this.idAluno = 0;
+        this.nome = "";
+        this.sobrenome = "";
+        this.sexo = '\u0000';
+        this.idade = 0;}
+    public Aluno(String nome, String sobrenome, char sexo,String nascimento) {
+        this.idAluno = i;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+        this.sexo = sexo;
+        this.idade = idade;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = null;
+        try {
+            //Convertando string para Date
+            data = dateFormat.parse(nascimento);
+        } catch (ParseException e) {
+            // ExcessÃ£o
+            e.printStackTrace();
+        }
+        this.nascimento = data;
+    }
+}
