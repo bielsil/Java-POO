@@ -1,0 +1,178 @@
+package com.company;
+public class Matricula {
+    private Aluno aluno;
+    private Disciplina disciplinas;
+    private DisciplinaPratica disciplinasPraticas;
+    private short anoLetivo;
+    private byte serie;
+    private float notaPrimeiroBimestre;
+    private float notaSegundoBimestre;
+    private float notaTerceiroBimestre;
+    private float notaQuartoBimestre;
+    private boolean aprovado = false;
+    private float mediaPonderada;
+    private float mediaAritmetica;
+    private static float notas[] = new float[4];
+    private static String[] matricula;
+    public Matricula() {
+        this.anoLetivo = '\u0000';
+        this.serie = '\u0000';
+        this.notaPrimeiroBimestre = 0.0f;
+        this.notaSegundoBimestre = 0.0f;
+        this.notaTerceiroBimestre = 0.0f;
+        this.notaQuartoBimestre = 0.0f;
+        this.mediaAritmetica = 0.0f;
+        this.mediaPonderada = 0.0f;
+        this.aprovado = false;
+    }
+    public Matricula(Aluno aluno, Disciplina disciplinas,DisciplinaPratica disciplinasPraticas, short anoLetivo) {
+        this.aluno = aluno;
+        this.disciplinas = disciplinas;
+        this.disciplinasPraticas = disciplinasPraticas;
+        this.anoLetivo = anoLetivo;
+    }
+    public Aluno getAluno(){return this.aluno;}
+    public Disciplina getDisciplinas(){return this.disciplinas;}
+    public DisciplinaPratica getDisciplinasPraticas(){return this.disciplinasPraticas;}
+    public float getNotaPrimeiroBimestre() {
+        return this.notaPrimeiroBimestre;
+    }
+    public void setNotaPrimeiroBimestre(Float value) {
+        this.notaPrimeiroBimestre = value;
+    }
+    public float getNotaSegundoBimestre() {
+        return this.notaSegundoBimestre;
+    }
+    public void setNotaSegundoBimestre(Float value) {
+        this.notaSegundoBimestre = value;
+    }
+    public float getNotaTerceiroBimestre() {
+        return this.notaTerceiroBimestre;
+    }
+    public void setNotaTerceiroBimestre(Float value) {
+        this.notaTerceiroBimestre = value;
+    }
+    public float getNotaQuartoBimestre() {
+        return this.notaQuartoBimestre;
+    }
+    public void setNotaQuartoBimestre(Float value) {
+        this.notaQuartoBimestre = value;
+    }
+    public short getAnoLetivo(){ return this.anoLetivo;}
+    public boolean getAprovado(){return this.aprovado;}
+    public void Notas(float notaPrimeiroBimestre,float notaSegundoBimestre,float notaTerceiroBimestre,float notaQuartoBimestre){
+        this.notaPrimeiroBimestre = notaPrimeiroBimestre;
+        this.notaSegundoBimestre = notaSegundoBimestre;
+        this.notaTerceiroBimestre = notaTerceiroBimestre;
+        this.notaQuartoBimestre = notaQuartoBimestre;
+    }
+    public void Nota1(float notaPrimeiroBimestre){
+        this.notaPrimeiroBimestre = notaPrimeiroBimestre;
+            }
+    public void Nota2(float notaSegundoBimestre){
+        this.notaSegundoBimestre = notaSegundoBimestre;
+        }
+    public void Nota3(float notaTerceiroBimestre){
+                this.notaTerceiroBimestre = notaTerceiroBimestre;
+            }
+    public void Nota4(float notaQuartoBimestre){
+                this.notaQuartoBimestre = notaQuartoBimestre;
+    }
+    public void maiorNota() {
+        float maior = 0.0f;
+        if (notaPrimeiroBimestre > notaSegundoBimestre && notaPrimeiroBimestre > notaTerceiroBimestre && notaPrimeiroBimestre > notaQuartoBimestre)
+            maior = notaPrimeiroBimestre;
+        else if (notaSegundoBimestre > notaPrimeiroBimestre && notaSegundoBimestre > notaTerceiroBimestre && notaSegundoBimestre > notaQuartoBimestre)
+            maior = notaSegundoBimestre;
+        else if (notaTerceiroBimestre > notaPrimeiroBimestre && notaTerceiroBimestre > notaSegundoBimestre && notaTerceiroBimestre > notaQuartoBimestre)
+            maior = notaTerceiroBimestre;
+        else
+            maior = notaQuartoBimestre;
+        System.out.println("A maior nota é: " + maior);
+    }
+    public void menorNota() {
+        float menor = 0.0f;
+        if (notaPrimeiroBimestre < notaSegundoBimestre && notaPrimeiroBimestre < notaTerceiroBimestre && notaPrimeiroBimestre < notaQuartoBimestre)
+            menor = notaPrimeiroBimestre;
+        else if (notaSegundoBimestre < notaPrimeiroBimestre && notaSegundoBimestre < notaTerceiroBimestre && notaSegundoBimestre < notaQuartoBimestre)
+            menor = notaSegundoBimestre;
+        else if (notaTerceiroBimestre < notaPrimeiroBimestre && notaTerceiroBimestre < notaSegundoBimestre && notaTerceiroBimestre < notaQuartoBimestre)
+            menor = notaTerceiroBimestre;
+        else
+            menor = notaQuartoBimestre;
+        System.out.println("A menor nota é:" + menor);
+    }
+    public Float getMediaAritmetica() {
+        Float somaNotas = 0.0f;
+        for (int contador = 0; contador < 4; contador++) {
+            switch (contador) {
+                case 0:
+                    notas[contador] = notaPrimeiroBimestre;
+                    somaNotas = somaNotas + notaPrimeiroBimestre;
+                    break;
+                case 1:
+                    notas[contador] = notaSegundoBimestre;
+                    somaNotas = somaNotas + notaSegundoBimestre;
+                    break;
+                case 2:
+                    notas[contador] = notaTerceiroBimestre;
+                    somaNotas = somaNotas + notaTerceiroBimestre;
+                    break;
+                case 3:
+                    notas[contador] = notaQuartoBimestre;
+                    somaNotas = somaNotas + notaQuartoBimestre;
+                    break;
+            }
+        }
+        mediaAritmetica = somaNotas/4;
+        return mediaAritmetica;
+    }
+    public Float getMediaPonderada(){
+        Float somaNotas = 0.0f;
+        for (int contador = 0; contador < 4; contador++) {
+            switch (contador) {
+                case 0:
+                    notas[contador] = notaPrimeiroBimestre;
+                    somaNotas = somaNotas + notaPrimeiroBimestre;
+                    break;
+                case 1:
+                    notas[contador] = notaSegundoBimestre;
+                    somaNotas = somaNotas + notaSegundoBimestre*2;
+                    break;
+                case 2:
+                    notas[contador] = notaTerceiroBimestre;
+                    somaNotas = somaNotas + notaTerceiroBimestre;
+                    break;
+                case 3:
+                    notas[contador] = notaQuartoBimestre;
+                    somaNotas = somaNotas + notaQuartoBimestre*2;
+                    break;
+            }
+        }
+        mediaPonderada = somaNotas/(1+2+1+2);
+        return mediaPonderada;
+    }
+    public Boolean getVerificaNotas() {
+        if(disciplinasPraticas.getCargaHorariaPratica()==0)
+        {
+        if (Float.compare(mediaAritmetica,7.0f)>0) {
+            this.aprovado = true;
+            return this.aprovado;
+            }
+        else
+        { this.aprovado = false;
+            return this.aprovado;
+        }}
+        else
+        {
+            if (Float.compare(mediaAritmetica,7.0f)>0) {
+                this.aprovado = true;
+                return this.aprovado;
+            }
+            else
+            { this.aprovado = false;
+                return this.aprovado;
+            }}
+        }
+
+}
