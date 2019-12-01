@@ -1,0 +1,192 @@
+package com.company;
+import com.company.Aluno;
+import com.company.Disciplina;
+import com.company.DisciplinaPratica;
+
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.*;
+
+public class Main {
+    static Scanner entrada = new Scanner(System.in);
+    static ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
+    static ArrayList<DisciplinaPratica> disciplinasPraticas = new ArrayList<DisciplinaPratica>();
+    static ArrayList<Aluno> aluno = new ArrayList<Aluno>();
+    static ArrayList<Matricula> matricula = new ArrayList<Matricula>();
+    static DecimalFormat formato = new DecimalFormat("#0.0");
+
+    public static void CadastrarAlunos(){
+        for(int i = 0; i<10;i++){
+            System.out.println("Digite o nome do " + (i+1) + "º aluno:");
+            String nome = entrada.nextLine();
+            System.out.println("Digite o sobrenome " + (i+1) + "º aluno:");
+            String sobrenome = entrada.nextLine();
+            System.out.println("Digite o sexo " + (i+1) + "º aluno (M ou F):");
+            char sexo = entrada.nextLine().charAt(0);
+            System.out.println("Digite a data de nascimento " + (i+1) + "º aluno (dd/MM/YYYY):");
+            String nascimento = entrada.nextLine();
+            aluno.add(new Aluno(nome,sobrenome,sexo,nascimento));
+        }
+    }/**Cadastra 10 alunos */
+    public static void CadastrarDisciplinas(){
+        for(int i = 0; i<5;i++)
+        {System.out.println("Digite o nome da " + (i+1) + "º disciplina: ");
+            String nomeDisciplina = entrada.nextLine();
+            System.out.println("Digite a carga horaria da disciplina: ");
+            int cargaHoraria = Integer.parseInt(entrada.nextLine());
+            System.out.println("Esta disciplina possui carga horaria prática? (sim ou não)");
+            String sim = entrada.nextLine();
+            if(sim.toLowerCase().equals("sim")){
+                System.out.println("Digite a carga horaria da disciplina pratica: ");
+                int cargaHorariaPratica = Integer.parseInt(entrada.nextLine());
+                disciplinasPraticas.add(new DisciplinaPratica(nomeDisciplina,cargaHoraria,cargaHorariaPratica));
+            }
+            else
+                disciplinasPraticas.add(new DisciplinaPratica(null,0,0));
+            disciplinas.add(new Disciplina(nomeDisciplina,cargaHoraria));}
+    }/**Cadastra 5 disciplinas */
+    public static void MatricularAluno(){
+        int verificador = 0;
+        System.out.println("Digite o id do aluno que deseja matricular: ");
+        int idAluno = Integer.parseInt(entrada.nextLine());
+        for(int i = 0;i<aluno.size();i++){
+            if(aluno.get(i).getIdAluno() == idAluno)
+            {   System.out.println("Insira o ano letivo:");
+            Short anoLetivo = Short.parseShort(entrada.nextLine());
+            System.out.println("Digite o código da disciplina: ");
+            int codigoDisciplina = Integer.parseInt(entrada.nextLine());
+            for(int b = 0; b<matricula.size();b++){
+                if(matricula.get(b).getAnoLetivo()==anoLetivo && matricula.get(b).getAluno().getIdAluno()==idAluno && matricula.get(b).getDisciplinas().getCodigoDisciplina()==codigoDisciplina){ verificador =1;}}
+            for(int c = 0;c<disciplinas.size();c++){
+                if(disciplinas.get(c).getCodigoDisciplina() == codigoDisciplina&& verificador ==0){
+                        matricula.add(new Matricula(aluno.get(i),disciplinas.get(c),disciplinasPraticas.get(c),anoLetivo));
+                }
+                else if(verificador ==1)
+                {System.out.println("O aluno não pode ser matriculado na mesma disciplina no mesmo ano letivo.");
+                verificador+=1;}
+            }
+            }
+        }
+    }/** Matricula 1 aluno em uma disciplina*/
+    public static void LancarNotas(){
+        Boolean idIncorreto = true;
+        System.out.println("Insira o ID do aluno que deseja acrescentar as notas: ");
+        int idAluno = Integer.parseInt(entrada.nextLine());
+        for(int i = 0;i<matricula.size();i++){
+        if(matricula.get(i).getAluno().getIdAluno()==idAluno){
+            System.out.println("Disciplina:" + matricula.get(i).getDisciplinas().getNomeDisciplina());
+            System.out.println("Insira a nota do primeiro bimestre (0 à 10):");
+            float notaPrimeiroBimestre = Float.parseFloat(entrada.nextLine());
+            System.out.println("Insira a nota do segundo bimestre (0 à 10):");
+            float notaSegundoBimestre = Float.parseFloat(entrada.nextLine());
+            System.out.println("Insira a nota do terceiro bimestre (0 à 10):");
+            float notaTerceiroBimestre = Float.parseFloat(entrada.nextLine());
+            System.out.println("Insira a nota do quarto bimestre (0 à 10):");
+            float notaQuartoBimestre = Float.parseFloat(entrada.nextLine());
+            matricula.get(i).Notas(notaPrimeiroBimestre,notaSegundoBimestre,notaTerceiroBimestre,notaQuartoBimestre);
+            idIncorreto = false;
+        }
+        }
+        if(idIncorreto)
+        System.out.println("Id incorreto.");
+        }/** Lança as notas dos 4 bimestres de 1 aluno ao mesmo tempo*/
+    public static void LancarNota(){
+        Boolean idIncorreto = true;
+        System.out.println("Insira o ID do aluno que deseja acrescentar as notas: ");
+        int idAluno = Integer.parseInt(entrada.nextLine());
+        System.out.println("Insira o código da disciplina: ");
+        int disciplina = Integer.parseInt(entrada.nextLine());
+        System.out.println("Insira o ano letivo: ");
+        int anoLetivo = Integer.parseInt(entrada.nextLine());
+        System.out.println("Insira o bimestre: ");
+        int bimestre = Integer.parseInt(entrada.nextLine());
+        for(int i = 0;i<matricula.size();i++){
+            if(matricula.get(i).getAluno().getIdAluno()==idAluno){
+                if(matricula.get(i).getDisciplinas().getCodigoDisciplina() == disciplina && matricula.get(i).getAnoLetivo()==anoLetivo) {
+                    System.out.println("Disciplina:" + matricula.get(i).getDisciplinas().getNomeDisciplina() + " do ano de " + anoLetivo);
+                    switch (bimestre) {
+                        case 1:
+                            System.out.println("Insira a nota do primeiro bimestre (0 à 10):");
+                            float notaPrimeiroBimestre = Float.parseFloat(entrada.nextLine());
+                            matricula.get(i).Nota1(notaPrimeiroBimestre);
+                            break;
+                        case 2:
+                            System.out.println("Insira a nota do segundo bimestre (0 à 10):");
+                            float notaSegundoBimestre = Float.parseFloat(entrada.nextLine());
+                            matricula.get(i).Nota2(notaSegundoBimestre);
+                            break;
+                        case 3:
+                            System.out.println("Insira a nota do terceiro bimestre (0 à 10):");
+                            float notaTerceiroBimestre = Float.parseFloat(entrada.nextLine());
+                            matricula.get(i).Nota3(notaTerceiroBimestre);
+                            break;
+                        case 4:
+                            System.out.println("Insira a nota do quarto bimestre (0 à 10):");
+                            float notaQuartoBimestre = Float.parseFloat(entrada.nextLine());
+                            matricula.get(i).Nota4(notaQuartoBimestre);
+                    }
+                    idIncorreto = false;
+                }
+            }
+        }
+        if(idIncorreto)
+            System.out.println("Informações incorretas.");
+    }/** Lança as notas separadas*/
+    public static void Boletim(){
+        System.out.println("Digite o ID do aluno para mostrar seu boletim.");
+        int idAluno = Integer.parseInt(entrada.nextLine());
+        System.out.println("Digite o ano que deseja verificar: ");
+        int anoLetivo = Integer.parseInt(entrada.nextLine());
+        System.out.println("Disciplina   |  CH  | CH Prática | 1º Bim. | 2º Bim. | 3º Bim. | 4º Bim. | Média | Situação |");
+        for(int i1=0;i1<matricula.size();i1++){
+            if(matricula.get(i1).getAluno().getIdAluno() == idAluno && matricula.get(i1).getAnoLetivo() == anoLetivo){
+                System.out.print(matricula.get(i1).getDisciplinas().getNomeDisciplina());
+                for(int i=disciplinas.get(i1).getNomeDisciplina().length();i<13;i++)
+                    System.out.print(" ");
+                System.out.print("|  "+matricula.get(i1).getDisciplinas().getCargaHorariaGeral());
+                for(int i=String.valueOf(matricula.get(i1).getDisciplinas().getCargaHorariaGeral()).length();i<4;i++)
+                    System.out.print(" ");
+                System.out.print("|     "+matricula.get(i1).getDisciplinasPraticas().getCargaHorariaPratica());
+                for(int i=String.valueOf(matricula.get(i1).getDisciplinasPraticas().getCargaHorariaPratica()).length();i<7;i++)
+                    System.out.print(" ");
+                System.out.print("|   "+matricula.get(i1).getNotaPrimeiroBimestre());
+                for(int i=String.valueOf(matricula.get(i1).getNotaPrimeiroBimestre()).length();i<6;i++)
+                    System.out.print(" ");
+                System.out.print("|   "+matricula.get(i1).getNotaSegundoBimestre());
+                for(int i=String.valueOf(matricula.get(i1).getNotaSegundoBimestre()).length();i<6;i++)
+                    System.out.print(" ");
+                System.out.print("|   "+matricula.get(i1).getNotaTerceiroBimestre());
+                for(int i=String.valueOf(matricula.get(i1).getNotaTerceiroBimestre()).length();i<6;i++)
+                    System.out.print(" ");
+                System.out.print("|   "+matricula.get(i1).getNotaQuartoBimestre());
+                for(int i=String.valueOf(matricula.get(i1).getNotaQuartoBimestre()).length();i<6;i++)
+                    System.out.print(" ");
+                if(matricula.get(i1).getDisciplinasPraticas().getCargaHorariaPratica() ==0)
+                System.out.print("|  "+ formato.format(matricula.get(i1).getMediaAritmetica()));
+                else
+                    System.out.print("|  "+ formato.format(matricula.get(i1).getMediaPonderada()));
+                for(int i=String.valueOf(matricula.get(i1).getMediaAritmetica()).length();i<4;i++)
+                    System.out.print(" ");
+                if(matricula.get(i1).getVerificaNotas())
+                    System.out.print(" | Aprovado |\n");
+                else
+                    System.out.print(" | Reprovado|\n");
+            }
+            else
+                System.out.println("Matricula Invalida");
+        }
+    }/** Indica a nota de todas as disciplinas de 1 aluno*/
+    public static void main(String[] args) {
+        CadastrarAlunos();
+        CadastrarDisciplinas();
+        MatricularAluno();
+        MatricularAluno();
+        MatricularAluno();
+        MatricularAluno();
+        MatricularAluno();
+        LancarNota();
+        Boletim();
+        }
+}
