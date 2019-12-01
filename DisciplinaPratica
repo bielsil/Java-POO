@@ -1,0 +1,17 @@
+package com.company;
+
+public class DisciplinaPratica extends Disciplina {
+    private int cargaHorariaPratica;
+
+    public DisciplinaPratica(String nomeDisciplina, int cargaHorariaGeral,int cargaHorariaPratica) {
+        super(nomeDisciplina, cargaHorariaGeral);
+        this.cargaHorariaPratica = cargaHorariaPratica;
+    }
+    public int getCargaHorariaPratica() {
+        return this.cargaHorariaPratica;
+    }
+    public void setCargaHorariaPratica(int value) {
+        this.cargaHorariaPratica = value;
+    }
+
+}
