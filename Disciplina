@@ -1,0 +1,29 @@
+package com.company;
+
+public class Disciplina {
+    private int verificador;
+    private int codigoDisciplina;
+    private String nomeDisciplina;
+    private int cargaHorariaGeral;
+    private static int i=30;
+
+    public int getCodigoDisciplina() {
+        if (codigoDisciplina!=verificador)
+        {codigoDisciplina = i;
+            i++;}
+        verificador = codigoDisciplina;
+        return this.codigoDisciplina;
+    }
+    public String getNomeDisciplina() {
+        return this.nomeDisciplina;
+    }
+    public int getCargaHorariaGeral() {
+        return this.cargaHorariaGeral;
+    }
+    public Disciplina(String nomeDisciplina, int cargaHorariaGeral){
+        this.nomeDisciplina = nomeDisciplina;
+        this.cargaHorariaGeral = cargaHorariaGeral;
+        codigoDisciplina =1;
+
+    }
+}
